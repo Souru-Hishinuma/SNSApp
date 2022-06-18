@@ -30,5 +30,15 @@ router.delete('/:id', async (req, res) => {
         return res.status(403).json('あなたは自分のアカウントの時だけ情報を削除できます。');
     }
 })
+//特定のユーザー情報の削除
+router.get('/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        const {password, updatedAt, ...other} = user._doc;
+        res.status(200).json(other);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+})
 
 module.exports = router;
